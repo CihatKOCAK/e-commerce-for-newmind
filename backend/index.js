@@ -12,10 +12,10 @@ const app = express();
 app.use(express.json());
 
 // Routes
-app.use("/users", userRoutes);
-app.use("/campaigns", campaignRoutes);
-app.use("/products", productRoutes);
-app.use("/basket", basketRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/campaigns", campaignRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/basket", basketRoutes);
 
 // MongoDB Bağlantısı
 connectDB();
