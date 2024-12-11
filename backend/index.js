@@ -4,6 +4,7 @@ const connectDB = require("./config/database");
 const userRoutes = require("./routes/userRoutes");
 const campaignRoutes = require("./routes/campaignRoutes");
 const productRoutes = require("./routes/productRoutes");
+const basketRoutes = require("./routes/basketRoutes");
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use("/users", userRoutes);
 app.use("/campaigns", campaignRoutes);
 app.use("/products", productRoutes);
+app.use("/basket", basketRoutes);
 
 // MongoDB Bağlantısı
 connectDB();
