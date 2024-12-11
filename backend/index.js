@@ -6,6 +6,8 @@ const userRoutes = require("./routes/userRoutes");
 const campaignRoutes = require("./routes/campaignRoutes");
 const productRoutes = require("./routes/productRoutes");
 const basketRoutes = require("./routes/basketRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
 
 const app = express();
 
@@ -17,6 +19,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/campaigns", campaignRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/basket", basketRoutes);
+app.use("/api/admins", adminRoutes);
+app.use("/api/categories", categoryRoutes);
 
 const startServer = async () => {
   try {

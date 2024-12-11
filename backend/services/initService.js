@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const { hashPassword } = require("../utils/hashUtils");
 
 const initAdmin = async () => {
   // Gerekli environment değişkenlerini kontrol et
@@ -17,7 +18,7 @@ const initAdmin = async () => {
       admin = new User({
         name: "Admin",
         email: defaultAdminEmail,
-        password: defaultAdminPassword,
+        password: await hashPassword(defaultAdminPassword),
         role: "admin",
       });
       await admin.save();

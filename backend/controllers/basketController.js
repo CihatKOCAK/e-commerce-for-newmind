@@ -27,6 +27,18 @@ module.exports = {
     }
   },
 
+  async updateQuantity(req, res) {
+    const { productId, quantity } = req.body;
+    const userId = req.user.id;
+  
+    try {
+      const basket = await basketService.updateQuantity(userId, productId, quantity);
+      res.status(200).json({ success: true, basket });
+    } catch (error) {
+      res.status(500).json({ success: false, message: error.message });
+    }
+  },
+  
   async clearBasket(req, res) {
     const userId = req.user.id;
 

@@ -9,5 +9,6 @@ router.use(authMiddleware);
 router.post("/add", basketController.addItem); 
 router.get("/", basketController.getBasket); 
 router.delete("/clear", basketController.clearBasket); 
+router.put("/:productId", basketController.updateQuantity);
 
 module.exports = router;

@@ -5,7 +5,7 @@ const productSchema = new mongoose.Schema({
   description: { type: String, required: true },
   price: { type: Number, required: true },
   stock: { type: Number, required: true },
-  category: { type: String, required: true },
+  category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
   image: { type: String }, // Ürün görsel URL'si
 }, { timestamps: true });
 
