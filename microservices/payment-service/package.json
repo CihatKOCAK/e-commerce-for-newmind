@@ -1,0 +1,23 @@
+{
+  "name": "payment-service",
+  "version": "1.0.0",
+  "description": "Payment microservice for processing payments and sending payment events.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "kafkajs": "^2.0.0",
+    "mongoose": "^6.0.0",
+    "dotenv": "^10.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "author": "Cihat KOÇAK",
+  "license": "ISC"
+}

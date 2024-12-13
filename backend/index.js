@@ -8,6 +8,8 @@ const productRoutes = require("./routes/productRoutes");
 const basketRoutes = require("./routes/basketRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
+const { connectKafka } = require("./config/kafka");
 
 const app = express();
 
@@ -21,11 +23,13 @@ app.use("/api/products", productRoutes);
 app.use("/api/basket", basketRoutes);
 app.use("/api/admins", adminRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/payment", paymentRoutes);
 
 const startServer = async () => {
   try {
     connectDB();
     initAdmin();
+    connectKafka();
     console.log("Initialization completed successfully.");
   } catch (error) {
     console.error("Error during initialization:", error);
