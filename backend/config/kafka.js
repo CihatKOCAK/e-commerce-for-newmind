@@ -2,13 +2,13 @@ const { Kafka, Partitioners } = require('kafkajs');
 
 // Kafka client'ını ve producer'ı yapılandırma
 const kafka = new Kafka({
-  clientId: "payment-service", // Servisinizi burada tanımlayın
+  clientId: "backend-service", // Servisinizi burada tanımlayın
   brokers: ["kafka:9092"], // Kafka broker'ının adresi. Docker compose'da Kafka'nın konteyner adı "kafka" olarak belirlenmişti.
 });
 
 // Kafka producer ve consumer oluşturma
 const producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner }); //üreticiyi oluştur
-const consumer = kafka.consumer({ groupId: "payment-group" }); //tüketiciyi oluştur
+const consumer = kafka.consumer({ groupId: "backend-group" }); //tüketiciyi oluştur
 
 // Kafka'ya bağlanmak için bir fonksiyon
 const connectKafka = async () => {
@@ -22,7 +22,7 @@ const connectKafka = async () => {
     console.log("Kafka consumer connected");
 
     // Consumer'ı belirli bir konuya abone et
-    await consumer.subscribe({ topic: "payment-request", fromBeginning: true });
+    await consumer.subscribe({ topic: "payment-completed", fromBeginning: true });
 
     // Consumer'ın mesajları almasını sağla
     consumer.run({
@@ -30,6 +30,19 @@ const connectKafka = async () => {
         const paymentEvent = JSON.parse(message.value.toString());
         console.log(`Received payment event: ${JSON.stringify(paymentEvent)}`);
         // Burada consumer'ın alacağı mesajı işleyebilirsiniz
+
+        await producer.send({
+          topic: "invoice-request",
+          messages: [
+            {
+              value: JSON.stringify({
+                paymentId: paymentEvent.paymentId,
+                status: "success",
+                
+              }),
+            },
+          ],
+        });
       },
     });
   } catch (err) {

@@ -5,6 +5,7 @@ const paymentSchema = new mongoose.Schema({
   amount: { type: Number, required: true },
   date: { type: Date, required: true },
   productSnapshots: { type: Array, required: true },
+  status: { type: String, required: true },
 });
 
 module.exports = mongoose.model("Payment", paymentSchema);
