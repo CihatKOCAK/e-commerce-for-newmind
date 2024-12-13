@@ -32,13 +32,13 @@ const connectKafka = async () => {
         const paymentProcessed = await processPayment(paymentEvent);
 
         // Ödeme başarılıysa "payment-completed" mesajı gönder
-        if (paymentProcessed) {
+        if (paymentProcessed.success && paymentProcessed.paymentId) {
           await producer.send({
             topic: "payment-completed", // Ödeme tamamlandığında gönderilecek topic
             messages: [
               {
                 value: JSON.stringify({
-                  paymentId: paymentEvent.paymentId,
+                  paymentId: paymentProcessed.paymentId,
                   status: "success",
                   amount: paymentEvent.amount,
                   userId: paymentEvent.userId,

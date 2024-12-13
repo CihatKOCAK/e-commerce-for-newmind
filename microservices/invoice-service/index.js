@@ -1,19 +1,15 @@
-const runProducers = require("./producers/paymentProducer");
+const { connectKafka } = require("./config/kafka");
 const connectDB = require("./config/db");
-const { connectInvoiceKafka } = require("./config/invoiceKafka");
 
 const startService = async () => {
   try {
-    await connectDB(); //payment-service
+    await connectDB(); // MongoDB bağlantısı
     console.log("Connected to MongoDB for Payment-Service");
 
-    // Payment-Service çalışan bir mikroservis olarak aktif durumda
-    await runProducers();
+    // Kafka bağlantısını başlat
+    await connectKafka();
 
-    // Invoice-Service için Kafka consumer'ını başlat
-    await connectInvoiceKafka();
-
-    console.log("Payment-Service and Invoice-Service are running and ready");
+    console.log("Payment-Service is running and ready");
   } catch (error) {
     console.error("Error starting Payment-Service:", error);
   }

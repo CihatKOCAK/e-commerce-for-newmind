@@ -29,20 +29,10 @@ const connectKafka = async () => {
       eachMessage: async ({ topic, partition, message }) => {
         const paymentEvent = JSON.parse(message.value.toString());
         console.log(`Received payment event: ${JSON.stringify(paymentEvent)}`);
-        // Burada consumer'ın alacağı mesajı işleyebilirsiniz
 
-        await producer.send({
-          topic: "invoice-request",
-          messages: [
-            {
-              value: JSON.stringify({
-                paymentId: paymentEvent.paymentId,
-                status: "success",
-                
-              }),
-            },
-          ],
-        });
+        // Ödeme işlemini gerçekleştir ve sonucu döndür
+        console.log("Payment event received: ", paymentEvent.status);
+      
       },
     });
   } catch (err) {

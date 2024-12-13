@@ -5,6 +5,7 @@ const invoiceSchema = new mongoose.Schema({
   amount: { type: Number, required: true },
   date: { type: Date, required: true },
   products: { type: Array, required: true }, //snapshot of products
+  paymentId: { type: String, required: true },
 });
 
 module.exports = mongoose.model("Invoice", invoiceSchema);
