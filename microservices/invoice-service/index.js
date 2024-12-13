@@ -1,5 +1,6 @@
 const { connectKafka } = require("./config/kafka");
 const connectDB = require("./config/db");
+require("dotenv").config();
 
 const startService = async () => {
   try {
