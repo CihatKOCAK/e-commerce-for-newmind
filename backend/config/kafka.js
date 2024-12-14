@@ -7,12 +7,11 @@ const kafka = new Kafka({
 });
 
 // Kafka producer ve consumer oluşturma
-const producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner }); //üreticiyi oluştur
-const consumer = kafka.consumer({ groupId: 'backend-group' });
-//tüketiciyi oluştur
+const producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner }); // Üreticiyi oluştur
+const consumer = kafka.consumer({ groupId: 'backend-group' }); // Tüketiciyi oluştur
 
 // Kafka'ya bağlanmak için bir fonksiyon
-const connectKafka = async () => {
+const connectKafka = async (io) => {
   try {
     // Kafka producer'ı başlat
     await producer.connect();
@@ -29,13 +28,20 @@ const connectKafka = async () => {
     consumer.run({
       eachMessage: async ({ topic, partition, message }) => {
         const paymentEvent = JSON.parse(message.value.toString());
-        // Fatura işlemini gerçekleştir
         console.log(`Received payment event id ${paymentEvent.paymentId} with status ${paymentEvent.status}`);
-        if(paymentEvent.status === "success") {
+
+        // Ödeme başarılıysa
+        if (paymentEvent.status === "success") {
           console.info("Payment successful");
 
-          //TODO: socket.io ile kullanıcıya ödeme başarılı mesajı gönderilecek!!!!
+          // Socket.io ile kullanıcıya ödeme başarılı mesajı gönder
+          io.emit("paymentStatus", {
+            userId: paymentEvent.userId,
+            status: "success",
+            message: "Payment was successful!",
+          });
 
+          // Kafka'ya yeni bir mesaj gönder
           await producer.send({
             topic: "invoice-start", // Fatura oluşturulduğunda gönderilecek topic
             messages: [
@@ -49,10 +55,16 @@ const connectKafka = async () => {
               },
             ],
           });
-        }
-        else {
+        } else {
           console.error("Payment failed");
-        }      
+
+          // Socket.io ile kullanıcıya ödeme başarısız mesajı gönder
+          io.emit("paymentStatus", {
+            userId: paymentEvent.userId,
+            status: "failed",
+            message: "Payment failed. Please try again.",
+          });
+        }
       },
     });
   } catch (err) {
