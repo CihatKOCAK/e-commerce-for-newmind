@@ -4,7 +4,7 @@ const invoiceSchema = new mongoose.Schema({
   userId: { type: String, required: true },
   amount: { type: Number, required: true },
   date: { type: Date, required: true },
-  products: { type: Array, required: true }, //snapshot of products
+  productSnapshots: { type: Array, required: true }, //snapshot of products
   paymentId: { type: String, required: true },
 });
 

@@ -1,3 +1,4 @@
+// microservices/payment-service/config/kafka.js
 const { Kafka, Partitioners } = require("kafkajs");
 const { processPayment } = require("../services/paymentService");
 
@@ -26,29 +27,38 @@ const connectKafka = async () => {
     consumer.run({
       eachMessage: async ({ topic, partition, message }) => {
         const paymentEvent = JSON.parse(message.value.toString());
-        console.log(`Received payment event: ${JSON.stringify(paymentEvent)}`);
+        console.log(`Received payment event id ${paymentEvent.paymentId} with status ${paymentEvent.status}`);
 
         // Ödeme işlemini gerçekleştir
         const paymentProcessed = await processPayment(paymentEvent);
+        console.log(`Payment processed: ${JSON.stringify(paymentProcessed.success)}`);
 
+        let value = "";
         // Ödeme başarılıysa "payment-completed" mesajı gönder
-        if (paymentProcessed.success && paymentProcessed.paymentId) {
-          await producer.send({
-            topic: "payment-completed", // Ödeme tamamlandığında gönderilecek topic
-            messages: [
-              {
-                value: JSON.stringify({
-                  paymentId: paymentProcessed.paymentId,
-                  status: "success",
-                  amount: paymentEvent.amount,
-                  userId: paymentEvent.userId,
-                  productSnapshots: paymentEvent.productSnapshots,
-                }),
-              },
-            ],
+        if (paymentProcessed.success) {
+          value = JSON.stringify({
+            paymentId: paymentProcessed.paymentId,
+            productSnapshots: paymentEvent.productSnapshots,
+            amount: paymentEvent.amount,
+            userId: paymentEvent.userId,
+            status: "success",
           });
-          console.log("Payment completed message sent to Kafka");
         }
+        else {
+          value = JSON.stringify({
+            paymentId: paymentProcessed.paymentId,
+            status: "failed",
+          });
+        }
+        await producer.send({
+          topic: "payment-completed", // Ödeme tamamlandığında gönderilecek topic
+          messages: [
+            {
+              value: value,
+            },
+          ],
+        });
+           
       },
     });
   } catch (err) {

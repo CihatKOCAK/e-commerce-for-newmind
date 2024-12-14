@@ -7,13 +7,12 @@ const processPayment = async (paymentEvent) => {
     const payment = new Payment({
       userId: paymentEvent.userId,
       amount: paymentEvent.amount,
+      card: paymentEvent.card,
       status: "completed",
       date: new Date(),
     });
     await payment.save();
     console.log(`Processing payment for user ${paymentEvent.userId} with amount ${paymentEvent.amount}`);
-
-    console.log("payment new --> ", payment);
     // İşlem başarılıysa true döndür
     // Burada ödeme başarılıysa veya hatalıysa işlemi simüle edebilirsiniz
     return {
@@ -28,6 +27,7 @@ const processPayment = async (paymentEvent) => {
     const payment = new Payment({
       userId: paymentEvent.userId,
       amount: paymentEvent.amount,
+      card: paymentEvent.card,
       status: "failed",
       date: new Date(),
     });

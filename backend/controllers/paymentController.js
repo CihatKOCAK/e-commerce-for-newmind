@@ -2,11 +2,18 @@ const kafka = require("../config/kafka");  // Kafka yapılandırmasını import 
 
 const paymentController = {
   // Ödeme işlemi oluşturma
+/**
+ * @bodyParam 
+ * {string} userId - Kullanıcı ID'si
+ * {number} amount - Ödeme tutarı
+ * {array} productSnapshots - Ürünlerin anlık durumu
+ * {object} card - Kredi kartı bilgileri (name, number, expiry, cvc)
+ **/ 
   async createPayment(req, res) {
-    const { userId, amount, productSnapshots } = req.body;    
+    const { userId, amount, productSnapshots, card } = req.body;    
     try {
       // Kafka'ya ödeme isteğini gönder
-      const paymentEvent = { userId, amount, date: new Date(), productSnapshots };
+      const paymentEvent = { userId, amount, card, productSnapshots };
       
       // Kafka producer'ını kullanarak ödeme isteğini gönder
       await kafka.producer.send({
@@ -18,7 +25,6 @@ const paymentController = {
         ],
       });
 
-      // Başarılı bir şekilde ödeme isteği gönderildiyse
       res.status(200).json({ success: true, message: "Payment request sent" });
     } catch (error) {
       console.error("Payment request failed:", error);

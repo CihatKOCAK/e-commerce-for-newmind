@@ -6,7 +6,7 @@ const processInvoice = async (invoiceEvent) => {
       userId: invoiceEvent.userId,
       amount: invoiceEvent.amount,
       date: new Date(),
-      products: invoiceEvent.productSnapshots,
+      productSnapshots: invoiceEvent.productSnapshots,
       paymentId: invoiceEvent.paymentId,
     };
 

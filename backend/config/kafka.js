@@ -8,7 +8,8 @@ const kafka = new Kafka({
 
 // Kafka producer ve consumer oluşturma
 const producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner }); //üreticiyi oluştur
-const consumer = kafka.consumer({ groupId: "backend-group" }); //tüketiciyi oluştur
+const consumer = kafka.consumer({ groupId: 'backend-group' });
+//tüketiciyi oluştur
 
 // Kafka'ya bağlanmak için bir fonksiyon
 const connectKafka = async () => {
@@ -28,11 +29,30 @@ const connectKafka = async () => {
     consumer.run({
       eachMessage: async ({ topic, partition, message }) => {
         const paymentEvent = JSON.parse(message.value.toString());
-        console.log(`Received payment event: ${JSON.stringify(paymentEvent)}`);
+        // Fatura işlemini gerçekleştir
+        console.log(`Received payment event id ${paymentEvent.paymentId} with status ${paymentEvent.status}`);
+        if(paymentEvent.status === "success") {
+          console.info("Payment successful");
 
-        // Ödeme işlemini gerçekleştir ve sonucu döndür
-        console.log("Payment event received: ", paymentEvent.status);
-      
+          //TODO: socket.io ile kullanıcıya ödeme başarılı mesajı gönderilecek!!!!
+
+          await producer.send({
+            topic: "invoice-start", // Fatura oluşturulduğunda gönderilecek topic
+            messages: [
+              {
+                value: JSON.stringify({
+                  userId: paymentEvent.userId,
+                  amount: paymentEvent.amount,
+                  paymentId: paymentEvent.paymentId,
+                  productSnapshots: paymentEvent.productSnapshots,
+                }),
+              },
+            ],
+          });
+        }
+        else {
+          console.error("Payment failed");
+        }      
       },
     });
   } catch (err) {

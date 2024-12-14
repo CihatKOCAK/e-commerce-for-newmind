@@ -20,7 +20,7 @@ const connectKafka = async () => {
     console.log("Kafka producer connected");
 
     // "payment-request" topic'ine abone ol
-    await consumer.subscribe({ topic: "payment-completed", fromBeginning: true });
+    await consumer.subscribe({ topic: "invoice-start", fromBeginning: true });
 
     // Mesajları işle
     consumer.run({
