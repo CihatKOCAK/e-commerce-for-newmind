@@ -22,6 +22,14 @@ services:
       KAFKA_CREATE_TOPICS: "baeldung:1:1"
     networks:
       - kafka-net
+    
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - kafka-net
 
   backend:
     build:
@@ -30,9 +38,11 @@ services:
       - "3000:3000"
     environment:
       KAFKA_BROKER: kafka:9092
+      REDIS_URL: redis://redis:6379
     depends_on:
       - kafka
       - zookeeper
+      - redis
     networks:
       - kafka-net
     

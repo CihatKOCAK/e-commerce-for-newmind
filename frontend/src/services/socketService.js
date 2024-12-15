@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 
 // WebSocket sunucusuna bağlantı
-const socket = io('http://localhost:3000'); // Sunucu URL'si
+const socket = io(process.env.PORT || 5000); // Sunucu URL'si
 
 // Bağlantı durumunu takip etmek için event listener'lar
 socket.on('connect', () => {
