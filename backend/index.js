@@ -2,30 +2,19 @@ require("dotenv").config();
 const express = require("express");
 const connectDB = require("./config/database");
 const { initAdmin } = require("./services/initService");
-const userRoutes = require("./routes/userRoutes");
-const campaignRoutes = require("./routes/campaignRoutes");
-const productRoutes = require("./routes/productRoutes");
-const basketRoutes = require("./routes/basketRoutes");
-const adminRoutes = require("./routes/adminRoutes");
-const categoryRoutes = require("./routes/categoryRoutes");
-const paymentRoutes = require("./routes/paymentRoutes");
-const { connectKafka } = require("./config/kafka");
+const routes = require('./routes/index');
 const { Server } = require("socket.io");
 const http = require("http");
+const { connectProducer } = require("./services/kafka/producer");
+const connectKafka = require("./services/kafka/connectKafka");
 
 const app = express();
 
 // Middleware
 app.use(express.json());
 
-// Routes
-app.use("/api/users", userRoutes);
-app.use("/api/campaigns", campaignRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/basket", basketRoutes);
-app.use("/api/admins", adminRoutes);
-app.use("/api/categories", categoryRoutes);
-app.use("/api/payment", paymentRoutes);
+// Routers
+app.use('/api', routes);
 
 // Sunucu oluşturma
 const server = http.createServer(app);
@@ -51,7 +40,8 @@ const startServer = async () => {
   try {
     await connectDB(); // Veritabanı bağlantısı
     await initAdmin(); // Admin kullanıcıları oluşturma
-    await connectKafka(io); // Kafka bağlantısı ve Socket.IO entegrasyonu
+    await connectProducer(); // Kafka producer bağlantısı
+    await connectKafka(io); // Kafka consumer bağlantısı
     console.log("Initialization completed successfully.");
   } catch (error) {
     console.error("Error during initialization:", error);
