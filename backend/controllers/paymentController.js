@@ -1,4 +1,5 @@
 const kafka = require("../config/kafka");  // Kafka yapılandırmasını import et
+const { logError, logInfo } = require("../utils/loggerUtil");
 
 const paymentController = {
   // Ödeme işlemi oluşturma
@@ -26,8 +27,9 @@ const paymentController = {
       });
 
       res.status(200).json({ success: true, message: "Payment request sent" });
+      logInfo("paymentController.createPayment", `Payment request sent for user: ${userId}, amount: ${amount}`);
     } catch (error) {
-      console.error("Payment request failed:", error);
+      logError("paymentController.createPayment", `Payment request failed for user: ${userId}, amount: ${amount} - Error: ${error.message}`);
       res.status(500).json({ success: false, message: "Payment request failed" });
     }
   },

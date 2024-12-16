@@ -7,6 +7,7 @@ const { Server } = require("socket.io");
 const http = require("http");
 const { connectProducer } = require("./services/kafka/producer");
 const connectKafka = require("./services/kafka/connectKafka");
+const { logInfo, logError } = require("./utils/loggerUtil");
 
 const app = express();
 
@@ -29,9 +30,9 @@ const io = new Server(server, {
 
 // Socket.IO bağlantılarını dinle
 io.on("connection", (socket) => {
-  console.log(`User connected: ${socket.id}`);
+  logInfo("socketConnection", `User connected: ${socket.id}`);
   socket.on("disconnect", () => {
-    console.log(`User disconnected: ${socket.id}`);
+    logInfo("socketConnection", `User disconnected: ${socket.id}`);
   });
 });
 
@@ -42,19 +43,19 @@ const startServer = async () => {
     await initAdmin(); // Admin kullanıcıları oluşturma
     await connectProducer(); // Kafka producer bağlantısı
     await connectKafka(io); // Kafka consumer bağlantısı
-    console.log("Initialization completed successfully.");
+    logInfo("serverStatus", 'Server started successfully all services');
   } catch (error) {
-    console.error("Error during initialization:", error);
+    logError("serverStatus", `Server failed to start: ${error.message}`);
     process.exit(1); // Kritik hata sonrası durdurma
   }
 };
 
 // Sunucuyu başlat
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 server.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  logInfo("serverStatus", `Server started on port ${PORT}`);
   startServer(); // Sunucu başladıktan sonra başlatma işlemleri
 }).on("error", (err) => {
-  console.error("Server failed to start:", err);
+  logError("serverStatus", `Server failed to start: ${err.message}`);
   process.exit(1);
 });

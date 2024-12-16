@@ -1,3 +1,4 @@
+const { logInfo, logError } = require('../../utils/loggerUtil');
 const kafka = require('./client');
 
 const consumer = kafka.consumer({ groupId: 'backend-group' });
@@ -5,9 +6,9 @@ const consumer = kafka.consumer({ groupId: 'backend-group' });
 const connectConsumer = async () => {
   try {
     await consumer.connect();
-    console.log("Kafka consumer connected");
+    logInfo('Kafka', 'Kafka consumer connected');
   } catch (err) {
-    console.error("Error connecting Kafka consumer:", err);
+    logError('Kafka', `Kafka consumer connection failed: ${err.message}`);
   }
 };
 

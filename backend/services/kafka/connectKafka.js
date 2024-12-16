@@ -1,6 +1,7 @@
 const { consumer } = require('./consumer');
 const topics = require('./topics');
 const handlePaymentCompleted = require('./events/paymentCompletedHandler');
+const { logInfo, logError } = require('../../utils/loggerUtil');
 
 const connectKafka = async (io) => {
   try {
@@ -14,9 +15,9 @@ const connectKafka = async (io) => {
       },
     });
 
-    console.log("Kafka consumer is running");
+    logInfo('Kafka', 'Kafka connected');
   } catch (err) {
-    console.error("Error connecting to Kafka:", err);
+    logError('Kafka', `Kafka connection failed: ${err.message}`);
   }
 };
 

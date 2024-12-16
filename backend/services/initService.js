@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const { hashPassword } = require("../utils/hashUtils");
+const { logInfo, logError } = require("../utils/loggerUtil");
 
 const initAdmin = async () => {
   // Gerekli environment değişkenlerini kontrol et
@@ -22,10 +23,10 @@ const initAdmin = async () => {
         role: "admin",
       });
       await admin.save();
-      console.log("Default admin account created.");
+      logInfo("initAdmin", "Default admin created successfully" + defaultAdminEmail);
     }
   } catch (error) {
-    console.error("Error during default admin initialization:", error);
+    logError("initAdmin", `Default admin creation failed: ${error.message}`);
     throw error; // Hata fırlat
   }
 };
