@@ -8,11 +8,21 @@ const http = require("http");
 const { connectProducer } = require("./services/kafka/producer");
 const connectKafka = require("./services/kafka/connectKafka");
 const { logInfo, logError } = require("./utils/loggerUtil");
+const cors = require('cors');
 
 const app = express();
 
 // Middleware
 app.use(express.json());
+
+const corsOptions = {
+  origin: 'http://localhost:3003',  // Sadece 3003 portundan gelen isteklere izin ver
+  methods: '*', // Tüm HTTP metotlarına izin ver
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+// CORS'u kullan
+app.use(cors(corsOptions));
 
 // Routers
 app.use('/api', routes);
@@ -51,7 +61,7 @@ const startServer = async () => {
 };
 
 // Sunucuyu başlat
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   logInfo("serverStatus", `Server started on port ${PORT}`);
   startServer(); // Sunucu başladıktan sonra başlatma işlemleri

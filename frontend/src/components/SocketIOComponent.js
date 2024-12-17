@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import socket from '../services/socketService';
+import socket from '../services/SocketService';
 
 const SocketIOComponent = () => {
   const [paymentStatus, setPaymentStatus] = useState(null);

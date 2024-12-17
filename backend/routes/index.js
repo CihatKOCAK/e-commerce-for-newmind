@@ -8,11 +8,16 @@ const categoryRoutes = require("./categoryRoutes");
 const paymentRoutes = require("./paymentRoutes");
 
 const router = express.Router();
-router.use("/users", userRoutes);
+router.use("/auth", userRoutes);
 router.use("/campaigns", campaignRoutes);
 router.use("/products", productRoutes);
 router.use("/basket", basketRoutes);
 router.use("/admins", adminRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/payment", paymentRoutes);
+
+router.get("/", (req, res) => {
+    res.send("Welcome to the backend server!");
+});
+
 module.exports = router;

@@ -12,7 +12,9 @@ class UserController {
       const hashedPassword = await hashPassword(password);
       const user = await userService.registerUser({ name, email, password: hashedPassword });
 
-      res.status(201).json({ message: "User registered successfully", user });
+      const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1d" });
+
+      res.status(201).json({ message: "User registered successfully", user, token });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -28,9 +30,23 @@ class UserController {
       const isPasswordValid = await comparePassword(password, user.password);
       if (!isPasswordValid) return res.status(401).json({ message: "Invalid credentials" });
 
-      const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
-      res.status(200).json({ token });
+      const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1d" });
+      res.status(200).json({ token,  user });
     } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async getUserProfile(req, res) {
+    try {
+      const user = await userService.findUserById(req.user.id);
+
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      res.status(200).json({ user });
+
+    }
+    catch (error) {
       res.status(500).json({ error: error.message });
     }
   }
