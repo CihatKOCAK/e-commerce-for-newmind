@@ -55,3 +55,23 @@ export const userRegister = async (userData) => {
     handleError(error);
   }
 };
+
+// Product List 
+export const getProducts = async () => {
+  try {
+    const response = await api.get(ENDPOINTS.PRODUCTS);
+    return handleResponse(response);
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+// Product Detail
+export const getProduct = async (id) => {
+  try {
+    const response = await api.get(ENDPOINTS.PRODUCT.replace(':id', id));
+    return handleResponse(response);
+  } catch (error) {
+    handleError(error);
+  }
+};

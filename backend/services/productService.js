@@ -7,11 +7,11 @@ class ProductService {
   }
 
   async getAllProducts() {
-    return await Product.find();
+    return await Product.find().populate("category", "name");
   }
 
   async getProductById(id) {
-    return await Product.findById(id);
+    return await Product.findById(id).populate("category", "name");
   }
 
   async updateProduct(id, productData) {
