@@ -3,6 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { userLogin } from "../../services/ApiService";
 import { AuthService } from "../../services/AuthService";
+import FormComponent from "../../components/Form/FormComponent";
 
 const LoginPage = () => {
   const { login, user } = useAuth();
@@ -14,12 +15,11 @@ const LoginPage = () => {
 
   React.useEffect(() => {
     if (user) {
-      navigate('/');
+      navigate("/");
     }
   }, [user, navigate]);
 
-
-  const [error, setError] = React.useState(""); 
+  const [error, setError] = React.useState("");
 
   const handleLogin = () => {
     setError("");
@@ -36,40 +36,38 @@ const LoginPage = () => {
       })
       .catch((error) => {
         console.log("error", error);
-        //setError(error); // Sunucu hatası durumunda mesaj
       });
   };
 
+  const fields = [
+    {
+      type: "text",
+      name: "email",
+      placeholder: "Email",
+      value: credentials.email,
+      onChange: (e) =>
+        setCredentials({ ...credentials, email: e.target.value }),
+      required: true,
+    },
+    {
+      type: "password",
+      name: "password",
+      placeholder: "Password",
+      value: credentials.password,
+      onChange: (e) =>
+        setCredentials({ ...credentials, password: e.target.value }),
+      required: true,
+    },
+  ];
+
   return (
-    <>
-      <h1>Login</h1>
-      <div>
-        Name :{" "}
-        <input
-          type="text"
-          name="name"
-          placeholder="Email"
-          required
-          onChange={(e) =>
-            setCredentials({ ...credentials, email: e.target.value })
-          }
-        />
-      </div>
-      <div>
-        Password :{" "}
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-          onChange={(e) =>
-            setCredentials({ ...credentials, password: e.target.value })
-          }
-        />
-      </div>
-      {error && <p style={{ color: "red" }}>{error}</p>} 
-      <button onClick={handleLogin}>Login</button>
-    </>
+    <FormComponent
+      title="Login"
+      fields={fields}
+      onSubmit={handleLogin}
+      buttonText="Login"
+      error={error}
+    />
   );
 };
 
