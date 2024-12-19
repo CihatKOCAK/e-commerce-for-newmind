@@ -11,7 +11,19 @@ class ProductService {
   }
 
   async getProductById(id) {
+    await Product.findByIdAndUpdate(
+      id,
+      { $inc: { viewCount: 1 } },
+      { new: true }
+    );
     return await Product.findById(id).populate("category", "name");
+  }
+
+  async getProductsByCategory(categoryId) {
+    return await Product.find({ category: categoryId }).populate(
+      "category",
+      "name"
+    );
   }
 
   async updateProduct(id, productData) {

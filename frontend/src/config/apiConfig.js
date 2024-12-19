@@ -10,6 +10,7 @@ export const ENDPOINTS = {
   // Product Endpoints
   PRODUCTS: "/products",
   PRODUCT: "/products/:id",
+  PRODUCTS_BY_CATEGORY: "/products/category/:categoryId",
 
   // Basket Endpoints
   BASKET_ADD: "/basket/add",

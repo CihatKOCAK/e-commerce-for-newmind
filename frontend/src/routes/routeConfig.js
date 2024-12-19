@@ -5,6 +5,7 @@ import ProfilePage from '../pages/private/user/ProfilePage';
 import DashboardPage from '../pages/private/admin/DashboardPage';
 import PrivateRoute from './PrivateRoute';
 import AdminRoute from './AdminRoute';
+import ProductDetailPage from '../pages/public/ProductDetailPage/ProductDetailPage';
 
 const routes = [
   {
@@ -20,6 +21,11 @@ const routes = [
   {
     path: '/register',
     element: <RegisterPage />,
+    isPrivate: false,
+  },
+  {
+    path: '/product/:id',
+    element: <ProductDetailPage />,
     isPrivate: false,
   },
   {

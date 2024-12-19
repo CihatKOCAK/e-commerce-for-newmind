@@ -12,10 +12,4 @@ const productSchema = new mongoose.Schema({
   image: { type: String }, // Ürün görsel URL'si
 }, { timestamps: true });
 
-// her get işlemi yapıldığında viewCount'u 1 arttır
-productSchema.methods.incrementViewCount = async function () {
-  this.viewCount += 1;
-  await this.save();
-};
-
 module.exports = mongoose.model("Product", productSchema);

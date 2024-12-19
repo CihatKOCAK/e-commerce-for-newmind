@@ -67,7 +67,7 @@ export const getProducts = async () => {
 };
 
 // Product Detail
-export const getProduct = async (id) => {
+export const getProductById = async (id) => {
   try {
     const response = await api.get(ENDPOINTS.PRODUCT.replace(':id', id));
     return handleResponse(response);
@@ -75,3 +75,13 @@ export const getProduct = async (id) => {
     handleError(error);
   }
 };
+
+export const getProductsByCategory = async (categoryId) => {
+  try {
+    const response = await api.get(ENDPOINTS.PRODUCTS_BY_CATEGORY.replace(':categoryId', categoryId));
+    return handleResponse(response);
+  }
+  catch (error) {
+    handleError(error);
+  }
+}

@@ -16,10 +16,17 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-  origin: 'http://localhost:3003',  // Sadece 3003 portundan gelen isteklere izin ver
+  origin: (origin, callback) => {
+    if (!origin || /http:\/\/localhost(:\d+)?/.test(origin)) {
+      callback(null, true); // İzin ver
+    } else {
+      callback(new Error('Not allowed by CORS')); // Reddet
+    }
+  },
   methods: '*', // Tüm HTTP metotlarına izin ver
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
+
 
 // CORS'u kullan
 app.use(cors(corsOptions));
