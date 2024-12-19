@@ -1,13 +1,13 @@
 import React from 'react';
-import { getProducts } from '../../services/ApiService';
 import ProductCard from '../../components/Product/ProductCard';
+import PRODUCT_SERVICE from '../../services/Api/ProductService';
 
 const IndexPage = () => {
   const [products, setProducts] = React.useState([]);
 
   const handleProducts = async () => {
     try {
-      const response = await getProducts();
+      const response = await PRODUCT_SERVICE.getProducts();
       if (response.status === 200) {
         setProducts(response.data);
       } else {

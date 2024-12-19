@@ -1,9 +1,9 @@
 import React from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { userLogin } from "../../services/ApiService";
 import { AuthService } from "../../services/AuthService";
 import FormComponent from "../../components/Form/FormComponent";
+import APIService_User from "../../services/Api/UserService";
 
 const LoginPage = () => {
   const { login, user } = useAuth();
@@ -24,7 +24,7 @@ const LoginPage = () => {
   const handleLogin = () => {
     setError("");
 
-    userLogin(credentials)
+    APIService_User.userLogin(credentials)
       .then((response) => {
         if (response.status === 200) {
           AuthService.setToken(response.data.token);

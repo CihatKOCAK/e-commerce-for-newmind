@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getProductById, getProductsByCategory } from '../../../services/ApiService'; // API çağrıları
 import brokenImg from '../../../assets/broken-image.png';
 import './ProductDetailPage.css';
 import { FaStar } from 'react-icons/fa';
 import ProductCard from '../../../components/Product/ProductCard'; // ProductCard bileşeni
+import PRODUCT_SERVICE from '../../../services/Api/ProductService';
 
 const ProductDetailPage = () => {
   const { id: productId } = useParams(); // URL'deki :id parametresini alır
@@ -15,7 +15,7 @@ const ProductDetailPage = () => {
 
   const fetchProductDetails = async () => {
     try {
-      const response = await getProductById(productId); // API çağrısı
+      const response = await PRODUCT_SERVICE.getProductById(productId); // API çağrısı
       if (response.status === 200) {
         setProduct(response.data);
         fetchSimilarProducts(response.data.category?._id); // Kategoriye göre ürünleri getir
@@ -32,7 +32,7 @@ const ProductDetailPage = () => {
   const fetchSimilarProducts = async (categoryId) => {
     if (!categoryId) setSimilarProducts([]);
     try {
-      const response = await getProductsByCategory(categoryId); // Kategoriye göre ürünleri getir
+      const response = await PRODUCT_SERVICE.getProductsByCategory(categoryId); // Kategoriye göre ürünleri getir
       if (response.status === 200) {
         setSimilarProducts(response.data);
       }
@@ -42,6 +42,7 @@ const ProductDetailPage = () => {
   };
 
   useEffect(() => {
+    /* eslint-disable */
     fetchProductDetails();
   }, [productId]);
 

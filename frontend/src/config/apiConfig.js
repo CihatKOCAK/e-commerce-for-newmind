@@ -1,4 +1,7 @@
-// /config/apiConfig.js
+import axios from 'axios';
+import { AuthService } from '../services/AuthService';
+
+
 export const API_URL = "http://localhost:3000/api";
 
 export const ENDPOINTS = {
@@ -30,3 +33,35 @@ export const ENDPOINTS = {
   // Payment
   PAYMENT: "/payment",
 };
+
+// API'yi oluşturuyoruz
+export const api = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+    
+  },
+});
+
+// API cevaplarını işleme
+export const handleResponse = (response) => {
+  return {
+    data: response.data,
+    status: response.status,
+  }
+}
+export const handleError = (error) => {
+  console.error('API Error:', error);
+  throw error;
+};
+
+// Axios isteği için her zaman token'ı başlığa eklemek
+api.interceptors.request.use((config) => {
+  const token = AuthService.getToken();
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`; // Authorization başlığını ekle
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});

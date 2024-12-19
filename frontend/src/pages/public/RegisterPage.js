@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { userRegister } from "../../services/ApiService";
 import { AuthService } from "../../services/AuthService";
 import FormComponent from "../../components/Form/FormComponent";
+import APIService_User from "../../services/Api/UserService";
 
 const RegisterPage = () => {
   const { user, login } = useAuth();
@@ -31,7 +31,7 @@ const RegisterPage = () => {
     }
 
     try {
-      const response = await userRegister(userData);
+      const response = await APIService_User.userRegister(userData);
       if (response.status === 201) {
         login(response.data.user);
         AuthService.setToken(response.data.token);
