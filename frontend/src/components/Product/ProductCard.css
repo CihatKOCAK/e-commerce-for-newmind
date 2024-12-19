@@ -43,6 +43,28 @@
   margin-bottom: 16px;
 }
 
+.product-rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.product-rating i {
+  color: #f39c12;
+}
+
+.product-rating-count {
+  font-size: 0.9rem;
+  color: #f39c12;
+  margin-left: 8px;
+}
+
+.product-view-count {
+  font-size: 0.9rem;
+  color: #888;
+  margin-left: auto;
+}
+
 .product-price {
   font-size: 1.1rem;
   font-weight: bold;
