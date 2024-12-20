@@ -6,6 +6,7 @@ import DashboardPage from '../pages/private/admin/DashboardPage';
 import PrivateRoute from './PrivateRoute';
 import AdminRoute from './AdminRoute';
 import ProductDetailPage from '../pages/public/ProductDetailPage/ProductDetailPage';
+import BasketPage from '../pages/public/BasketPage/BasketPage';
 
 const routes = [
   {
@@ -26,6 +27,11 @@ const routes = [
   {
     path: '/product/:id',
     element: <ProductDetailPage />,
+    isPrivate: false,
+  },
+  {
+    path:'/basket',
+    element: <BasketPage />,
     isPrivate: false,
   },
   {

@@ -2,16 +2,25 @@ import { api, handleError, handleResponse, ENDPOINTS } from "../../config/apiCon
 export default class APIService_Basket {
   static async getBasket() {
     try {
-      const response = await api.get(ENDPOINTS.PRODUCTS);
+      const response = await api.get(ENDPOINTS.BASKET_GET);
       return handleResponse(response);
     } catch (error) {
       handleError(error);
     }
   }
 
-  static async addProductToBasket(product) {
+  static async addItemToBasket(productId, quantity) {
     try {
-      const response = await api.post(ENDPOINTS.BASKET_ADD, product);
+      const response = await api.post(ENDPOINTS.BASKET_ADD, { productId, quantity });
+      return handleResponse(response);
+    } catch (error) {
+      handleError(error);
+    }
+  }
+
+  static async updateQuantity(productId, quantity) {
+    try {
+      const response = await api.put(ENDPOINTS.BASKET_UPDATE.replace(":productId", productId), { quantity });
       return handleResponse(response);
     } catch (error) {
       handleError(error);
@@ -30,9 +39,18 @@ export default class APIService_Basket {
   static async updateBasket(product) {
     try {
       const response = await api.put(
-        ENDPOINTS.BASKET_UPDATE.replace(":productId", product.id),
+        ENDPOINTS.BASKET_UPDATE.replace(":productId", product._id),
         product
       );
+      return handleResponse(response);
+    } catch (error) {
+      handleError(error);
+    }
+  }
+
+  static async removeFromBasket(productId) {
+    try {
+      const response = await api.delete(ENDPOINTS.BASKET_REMOVE.replace(":productId", productId));
       return handleResponse(response);
     } catch (error) {
       handleError(error);

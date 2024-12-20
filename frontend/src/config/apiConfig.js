@@ -20,6 +20,7 @@ export const ENDPOINTS = {
   BASKET_GET: "/basket",
   BASKET_CLEAR: "/basket/clear",
   BASKET_UPDATE: "/basket/:productId",
+  BASKET_REMOVE: "/basket/:productId",
 
   // Campaign Endpoints
   CAMPAIGNS: "/campaigns",

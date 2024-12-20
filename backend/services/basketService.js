@@ -4,21 +4,19 @@ const addItemToBasket = async (userId, productId, quantity) => {
   let basket = await Basket.findOne({ userId });
 
   if (!basket) {
-    // Sepet yoksa, yeni bir sepet oluştur
     basket = new Basket({ userId, items: [{ productId, quantity }] });
   } else {
-    // Sepette mevcut ürün var mı kontrol et
     const existingItem = basket.items.find((item) => item.productId.equals(productId));
 
     if (existingItem) {
-      existingItem.quantity += quantity; // Mevcut ürünü güncelle
+      existingItem.quantity += quantity;
     } else {
-      basket.items.push({ productId, quantity }); // Yeni ürün ekle
+      basket.items.push({ productId, quantity });
     }
   }
 
   await basket.save();
-  return basket;
+  return Basket.findOne({ userId }).populate("items.productId");
 };
 
 const updateQuantity = async (userId, productId, quantity) => {
@@ -33,29 +31,38 @@ const updateQuantity = async (userId, productId, quantity) => {
   }
 
   if (quantity <= 0) {
-    // Ürün miktarı 0 veya daha düşükse, sepetten çıkar
-    basket.items = basket.items.filter(item => item.product.toString() !== productId);
+    basket.items = basket.items.filter((item) => item.productId.toString() !== productId);
   } else {
-    // Ürün miktarını güncelle
     product.quantity = quantity;
   }
 
   await basket.save();
-  return basket;
+  return Basket.findOne({ userId }).populate("items.productId");
 };
 
 const getBasket = async (userId) => {
-  const basket = await Basket.findOne({ userId }).populate("items.productId");
-  return basket;
+  return Basket.findOne({ userId }).populate("items.productId");
 };
 
 const clearBasket = async (userId) => {
   await Basket.deleteOne({ userId });
 };
 
+const removeItemFromBasket = async (userId, productId) => {
+  const basket = await Basket.findOne({ userId });
+  if (!basket) {
+    throw new Error("Basket not found");
+  }
+
+  basket.items = basket.items.filter((item) => item.productId.toString() !== productId);
+  await basket.save();
+  return Basket.findOne({ userId }).populate("items.productId");
+};
+
 module.exports = {
   addItemToBasket,
   getBasket,
   clearBasket,
-  updateQuantity
+  updateQuantity,
+  removeItemFromBasket
 };

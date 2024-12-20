@@ -14,7 +14,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 1rem 10rem;
     background-color: #282c34;
     color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -59,6 +59,32 @@
   .nav-link.active {
     border-bottom: 2px solid #61dafb;
   }
+
+  .basket-icon {
+    position: relative;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+  }
+  
+  .basket-link {
+    color: inherit;
+    text-decoration: none;
+    position: relative;
+  }
+  
+  .basket-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
 
   .footer {
     display: flex;

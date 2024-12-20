@@ -1,0 +1,137 @@
+.basket-page {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: linear-gradient(to bottom right, #f7f8fc, #eef1f6);
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .basket-page h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+  
+  .empty-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #777;
+  }
+  
+  .basket-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .basket-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .basket-item > .product-info {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+  }
+  
+  .basket-item > .product-info > .product-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .product-price {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .quantity-info {
+    flex: 1;
+    text-align: left;
+  }
+  
+  .quantity-info p {
+    margin: 0.25rem 0;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .remove-button {
+    padding: 0.5rem 1rem;
+    background-color: #ff6b6b;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .remove-button:hover {
+    background-color: #ff4c4c;
+  }
+  
+  .basket-summary {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  .total-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .basket-item > .product-info > .product-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-right: 1rem;
+  }
+  
+  .clear-button,
+  .checkout-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .clear-button {
+    background-color: #ff6b6b;
+  }
+  
+  .clear-button:hover {
+    background-color: #ff4c4c;
+  }
+  
+  .checkout-button {
+    background-color: #4caf50;
+  }
+  
+  .checkout-button:hover {
+    background-color: #45a049;
+  }
+  

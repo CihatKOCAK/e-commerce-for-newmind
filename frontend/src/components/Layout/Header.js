@@ -1,8 +1,13 @@
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useBasket } from '../../context/BasketContext';
+import { FaShoppingCart } from 'react-icons/fa'; // Sepet ikonu için
+import './layout.css';
 
 const Header = () => {
   const { user, logout } = useAuth();
+  const { basket } = useBasket(); // Sepet verisini al
   const location = useLocation();
 
   const navList = user ? (
@@ -39,6 +44,12 @@ const Header = () => {
       <nav className="nav">
         {navList}
       </nav>
+      <div className="basket-icon">
+        <Link to="/basket" className="basket-link">
+          <FaShoppingCart size={24} />
+          {basket.length > 0 && <span className="basket-count">{basket.length}</span>}
+        </Link>
+      </div>
     </header>
   );
 };

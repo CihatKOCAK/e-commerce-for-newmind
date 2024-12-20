@@ -2,11 +2,13 @@ import './ProductCard.css';
 import brokenImg from '../../assets/broken-image.png';
 import { FaStar } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { useBasket } from '../../context/BasketContext';
 
 const ProductCard = ({ product }) => {
   const { name, description, price, stock, category, image, rate, viewCount, rateCount } = product;
 
   const navigate = useNavigate();
+  const { addToBasket } = useBasket();
 
   return (<div className="product-card">
       <div className="product-image">
@@ -32,7 +34,9 @@ const ProductCard = ({ product }) => {
       </div>
       <div className="product-actions">
         <button className="product-button" onClick={() => navigate(`/product/${product._id}`)}>View details</button>
-        <button className="product-button">Add to cart</button>
+        <button className="product-button" onClick={
+          () => addToBasket(product)
+        }>Add to basket</button>
       </div>
     </div> 
   );
