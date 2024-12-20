@@ -1,3 +1,4 @@
+const fileUploadService = require("../services/fileUploadService");
 const userService = require("../services/userService");
 const { hashPassword, comparePassword } = require("../utils/hashUtils");
 const jwt = require("jsonwebtoken");
@@ -50,6 +51,19 @@ class UserController {
       res.status(500).json({ error: error.message });
     }
   }
+
+  async updateUserProfile(req, res) {
+      try {
+        const { userId } = req.params; // URL parametresinden userId al
+        const userData = req.body; 
+        const updatedUser = await userService.updateUser(userId, userData);
+        res.status(200).json({ message: "User updated successfully", user: updatedUser });
+
+      }
+      catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    }
 }
 
 module.exports = new UserController();

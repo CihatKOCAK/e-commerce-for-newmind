@@ -16,6 +16,10 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
   };
 
+  const updateUserData = (userData) => {
+    setUser(userData);
+  };
+
   // Kullanıcıyı çıkış yaptığında temizleme
   const logout = () => {
     setUser(null); // Kullanıcıyı state'ten sil
@@ -32,7 +36,7 @@ export const AuthProvider = ({ children }) => {
   }, [user]);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUserData }}>
       {children}
     </AuthContext.Provider>
   );

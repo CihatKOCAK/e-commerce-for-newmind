@@ -26,4 +26,14 @@ export default class APIService_User {
         handleError(error);
       }
     };
-  }
+
+    static async updateUserProfile(userId, userData) {
+      try {
+        const response = await api.put(ENDPOINTS.USER_UPDATE.replace(":userId", userId), userData);
+        return handleResponse(response);
+      } catch (error) {
+        handleError(error);
+      }
+  };
+}
+  

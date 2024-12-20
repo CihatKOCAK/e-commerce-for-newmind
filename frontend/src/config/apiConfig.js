@@ -1,14 +1,15 @@
 import axios from 'axios';
 import { AuthService } from '../services/AuthService';
 
-
-export const API_URL = "http://localhost:3000/api";
+export const API_MAIN_URL = "http://localhost:3000/";
+export const API_URL = API_MAIN_URL + "api";
 
 export const ENDPOINTS = {
   // User Endpoints
   USER_LOGIN: "/auth/login",
   USER_REGISTER: "/auth/register",
   USER_PROFILE: "/auth/profile",
+  USER_UPDATE: "/auth/:userId/profile",
 
   // Product Endpoints
   PRODUCTS: "/products",
@@ -21,6 +22,9 @@ export const ENDPOINTS = {
   BASKET_CLEAR: "/basket/clear",
   BASKET_UPDATE: "/basket/:productId",
   BASKET_REMOVE: "/basket/:productId",
+
+  // upload file
+  UPLOAD: "/uploads/:type",
 
   // Campaign Endpoints
   CAMPAIGNS: "/campaigns",

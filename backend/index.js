@@ -9,6 +9,8 @@ const { connectProducer } = require("./services/kafka/producer");
 const connectKafka = require("./services/kafka/connectKafka");
 const { logInfo, logError } = require("./utils/loggerUtil");
 const cors = require('cors');
+const ensureUploadDirs = require("./utils/ensureUploadDirs");
+const path = require("path");
 
 const app = express();
 
@@ -16,13 +18,7 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || /http:\/\/localhost(:\d+)?/.test(origin)) {
-      callback(null, true); // İzin ver
-    } else {
-      callback(new Error('Not allowed by CORS')); // Reddet
-    }
-  },
+  origin: '*', // Tüm domainlere izin ver
   methods: '*', // Tüm HTTP metotlarına izin ver
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
@@ -45,6 +41,9 @@ const io = new Server(server, {
   },
 });
 
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 // Socket.IO bağlantılarını dinle
 io.on("connection", (socket) => {
   logInfo("socketConnection", `User connected: ${socket.id}`);
@@ -60,6 +59,7 @@ const startServer = async () => {
     await initAdmin(); // Admin kullanıcıları oluşturma
     await connectProducer(); // Kafka producer bağlantısı
     await connectKafka(io); // Kafka consumer bağlantısı
+    ensureUploadDirs(); // Yükleme dizinlerini oluştur
     logInfo("serverStatus", 'Server started successfully all services');
   } catch (error) {
     logError("serverStatus", `Server failed to start: ${error.message}`);

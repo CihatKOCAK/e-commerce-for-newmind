@@ -9,6 +9,10 @@ class UserService {
   async findUserByEmail(email) {
     return await User.findOne({ email });
   }
+
+  async updateUser(userId, userData) {
+    return await User.findByIdAndUpdate(userId, userData, { new: true });
+  }
 }
 
 module.exports = new UserService();

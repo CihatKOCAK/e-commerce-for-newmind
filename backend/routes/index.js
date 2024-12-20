@@ -6,6 +6,7 @@ const basketRoutes = require("./basketRoutes");
 const adminRoutes = require("./adminRoutes");
 const categoryRoutes = require("./categoryRoutes");
 const paymentRoutes = require("./paymentRoutes");
+const uploadRoutes = require("./uploadRoutes");
 
 const router = express.Router();
 router.use("/auth", userRoutes);
@@ -15,6 +16,7 @@ router.use("/basket", basketRoutes);
 router.use("/admins", adminRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/payment", paymentRoutes);
+router.use("/uploads", uploadRoutes);
 
 router.get("/", (req, res) => {
     res.send("Welcome to the backend server!");
