@@ -2,19 +2,26 @@ import React, { useState, useEffect } from "react";
 import ProductForm from "./ProductForm";
 import APIService_Product from "../../../services/Api/ProductService";
 
-const ProductList = ({categories}) => {
+const ProductList = () => {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const getProducts = async()  => {
     const pro = await APIService_Product.getProducts()
-    console.log(pro.data)
     setProducts(pro.data)
+  }
+
+  const getCategories = async () => {
+    const cat = await APIService_Product.getCategories()
+    setCategories(cat.data)
   }
 
   useEffect(() => {
     getProducts()
+    getCategories()
     return () => {
       setProducts([])
+      setCategories([])
     }
   }, [])
 

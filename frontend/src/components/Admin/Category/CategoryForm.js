@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import FormComponent from "../../Form/FormComponent";
+import APIService_Product from "../../../services/Api/ProductService";
+import { showSuccessToast } from "../../../utils/toastify";
 
 const CategoryForm = ({ setCategories }) => {
   const [error, setError] = useState("");
@@ -14,14 +16,17 @@ const CategoryForm = ({ setCategories }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!formData.name) {
       setError("Name is required!");
       return;
     }
-    setCategories((prev) => [...prev, { ...formData, id: Date.now() }]);
+
+    const addedCategory = await APIService_Product.addCategory(formData);
+    setCategories((prev) => [...prev, addedCategory.data]);
     setFormData({ name: "", description: "" });
     setError("");
+    showSuccessToast("Category added!");
   };
 
   return (

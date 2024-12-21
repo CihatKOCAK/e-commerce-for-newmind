@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import CategoryForm from "./CategoryForm";
 import Modal from "../../Modal";
 import { showSuccessToast } from "../../../utils/toastify";
+import APIService_Product from "../../../services/Api/ProductService";
 
 const CategoryList = () => {
-  const [categories, setCategories] = useState([
-    { id: 1, name: "Category 1", description: "Description 1" },
-    { id: 2, name: "Category 2", description: "Description 2" },
-  ]);
-
+  const [categories, setCategories] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+  const getCategories = async () => {
+    const cat = await APIService_Product.getCategories()
+    setCategories(cat.data)
+  }
+
+  useEffect(() => {
+    getCategories()
+    return () => {
+        setCategories([])
+    }
+}, [])
+
   const handleDelete = (id) => {
-    setCategories((prev) => prev.filter((category) => category.id !== id));
+    APIService_Product.deleteCategory(id);
+    showSuccessToast(`${categories.find((cat) => cat._id === id).name} category deleted!`);
+    setCategories((prev) => prev.filter((category) => category._id !== id));
   };
 
   const handleEdit = (category) => {
@@ -22,9 +33,10 @@ const CategoryList = () => {
   };
 
   const handleSave = (updatedCategory) => {
+    APIService_Product.updateCategory(updatedCategory._id, updatedCategory);
     setCategories((prev) =>
       prev.map((category) =>
-        category.id === updatedCategory.id ? updatedCategory : category
+        category._id === updatedCategory._id ? updatedCategory : category
       )
     );
     showSuccessToast("Category updated!");
@@ -37,7 +49,7 @@ const CategoryList = () => {
       <CategoryForm setCategories={setCategories} />
       <ul className="product-list">
         {categories.map((category) => (
-          <li key={category.id}>
+          <li key={category._id}>
             {category.name}
             <div>
             <button style={{
@@ -49,7 +61,7 @@ const CategoryList = () => {
                 backgroundColor: "red",
                 color: "white",
                 marginLeft: "10px",
-            }} onClick={() => handleDelete(category.id)}>Delete</button>
+            }} onClick={() => handleDelete(category._id)}>Delete</button>
             </div>
           </li>
         ))}

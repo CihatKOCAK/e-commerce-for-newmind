@@ -6,21 +6,6 @@ import APIService_Product from '../../../services/Api/ProductService';
 
 function DashboardPage() {
   const [activeTab, setActiveTab] = useState("products");
-  const [categories, setCategories] = useState([]);
-
-  const getCategories = async () => {
-    const cat = await APIService_Product.getCategories()
-    console.log(cat)
-    setCategories(cat.data)
-  }
-
-  useEffect(() => {
-    getCategories() // iki alanda da kullanıldığından dolayı direkt burada çağırıldı
-    return () => {
-      setCategories([])
-    }
-  }, [])
-  
 
   return (
     <div>
@@ -30,8 +15,8 @@ function DashboardPage() {
       <button onClick={() => setActiveTab("categories")}>Categories</button>
     </div>
     <div>
-      {activeTab === "products" && <ProductList categories={categories} />}
-      {activeTab === "categories" && <CategoryList categories={categories}  />}
+      {activeTab === "products" && <ProductList />}
+      {activeTab === "categories" && <CategoryList />}
     </div>
   </div>
     )

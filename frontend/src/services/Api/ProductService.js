@@ -55,7 +55,7 @@ export default class APIService_Product {
     }
   }
 
-  static async createCategory(categoryData) {
+  static async addCategory(categoryData) {
     try {
       const response = await api.post(ENDPOINTS.CATEGORIES, categoryData);
       return handleResponse(response);
