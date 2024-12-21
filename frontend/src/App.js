@@ -5,11 +5,13 @@ import routes from './routes/routeConfig';
 import PrivateRoute from './routes/PrivateRoute';
 import Layout from './components/Layout'; // Layout bileşenini ekleyin
 import { BasketProvider } from './context/BasketContext';
+import CustomToastContainer from './components/ToastContainer';
 
 const App = () => {
   return (
     <AuthProvider>
       <BasketProvider>
+      <CustomToastContainer />
         <Router>
           <Layout>
             <Routes>

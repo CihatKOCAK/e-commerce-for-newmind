@@ -3,7 +3,7 @@ const FormInput = ({ type, name, placeholder, value, onChange, required }) => {
     input: {
       width: "100%",
       padding: "10px",
-      margin: "10px 0",
+      margin: "10px -10px",
       border: "1px solid #ccc",
       borderRadius: "4px",
     },
