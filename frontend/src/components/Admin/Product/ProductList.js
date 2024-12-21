@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProductForm from "./ProductForm";
+import APIService_Product from "../../../services/Api/ProductService";
 
-const ProductList = () => {
-  const [products, setProducts] = useState([
-    { id: 1, name: "Product 1", description: "Description 1", price: 100, stock: 10 },
-    { id: 2, name: "Product 2", description: "Description 2", price: 200, stock: 5 },
-  ]);
+const ProductList = ({categories}) => {
+  const [products, setProducts] = useState([]);
+
+  const getProducts = async()  => {
+    const pro = await APIService_Product.getProducts()
+    console.log(pro.data)
+    setProducts(pro.data)
+  }
+
+  useEffect(() => {
+    getProducts()
+    return () => {
+      setProducts([])
+    }
+  }, [])
+
 
   const handleDelete = (id) => {
     setProducts((prev) => prev.filter((product) => product.id !== id));
@@ -14,11 +26,17 @@ const ProductList = () => {
   return (
     <div>
       <h2>Products</h2>
-      <ProductForm setProducts={setProducts} />
+      <ProductForm setProducts={setProducts} categories={categories} />
       <ul className="product-list">
-        {products.map((product) => (
-          <li key={product.id}>
-            {product.name} - {product.price}$
+        {products?.map((product) => (
+          <li key={product._id}>
+            <div>
+              <div>
+                {product.name} - {product.price}$
+              </div>
+              <div>{product.description}</div>
+              <div>Stock: {product.stock}  - Category: {product.category ? product.category.name : "Uncategorized"}</div>
+            </div>
             <button onClick={() => handleDelete(product.id)}>Delete</button>
           </li>
         ))}
