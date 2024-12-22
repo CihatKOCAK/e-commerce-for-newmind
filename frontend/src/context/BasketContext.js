@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { storage } from "../utils/localStorageUtils";
 import APIService_Basket from "../services/Api/BasketService";
 import { useAuth } from "./AuthContext";
+import { showSuccessToast } from "../utils/toastify";
 
 const BasketContext = createContext();
 
@@ -16,7 +17,9 @@ export const BasketProvider = ({ children }) => {
           const basketItems = res.data.basket?.items || [];
           setBasket(basketItems);
         })
-        .catch((err) => console.error("Error loading basket:", err));
+        .catch((err) => (
+          console.log("Error while fetching basket data: ", err)
+        ));
     } else {
       const storedBasket = storage.getItem("basket") || [];
       setBasket(storedBasket);
@@ -45,6 +48,7 @@ export const BasketProvider = ({ children }) => {
         APIService_Basket.addItemToBasket(product._id, 1);
       }
     }
+    showSuccessToast("Product added to basket!");
   };
 
   const updateBasketItem = async (updatedItem) => {
@@ -72,6 +76,8 @@ export const BasketProvider = ({ children }) => {
     if (user) {
       APIService_Basket.removeFromBasket(productId);
     }
+
+    showSuccessToast("Product removed from basket!");
   };
 
   const clearBasket = async () => {
@@ -79,6 +85,8 @@ export const BasketProvider = ({ children }) => {
     if (user) {
       APIService_Basket.clearBasket();
     }
+
+    showSuccessToast("Basket cleared!");
   };
 
   return (

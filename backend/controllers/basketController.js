@@ -19,7 +19,7 @@ module.exports = {
     try {
       const basket = await basketService.getBasket(userId);
       if (!basket) {
-        return res.status(404).json({ success: false, message: "Sepet bulunamadı" });
+        return res.status(200).json({ success: true, basket: [] });
       }
       res.status(200).json({ success: true, basket });
     } catch (error) {

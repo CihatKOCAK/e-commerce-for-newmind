@@ -5,6 +5,7 @@ import './ProductDetailPage.css';
 import { FaStar } from 'react-icons/fa';
 import ProductCard from '../../../components/Product/ProductCard'; // ProductCard bileşeni
 import PRODUCT_SERVICE from '../../../services/Api/ProductService';
+import { useBasket } from '../../../context/BasketContext';
 
 const ProductDetailPage = () => {
   const { id: productId } = useParams(); // URL'deki :id parametresini alır
@@ -12,6 +13,7 @@ const ProductDetailPage = () => {
   const [similarProducts, setSimilarProducts] = useState([]); // Benzer ürünler
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const {addToBasket} = useBasket();
 
   const fetchProductDetails = async () => {
     try {
@@ -79,6 +81,7 @@ const ProductDetailPage = () => {
           <p className={`product-stock ${stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
             {stock > 0 ? `${stock} in stock` : 'Out of stock'}
           </p>
+          <button className="add-to-basket-button" onClick={() => addToBasket(product)}>Add to basket</button>
         </div>
       </div>
     </div>
