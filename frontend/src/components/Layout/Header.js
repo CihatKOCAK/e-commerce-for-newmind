@@ -7,8 +7,14 @@ import './layout.css';
 
 const Header = () => {
   const { user, logout } = useAuth();
-  const { basket } = useBasket(); // Sepet verisini al
+  const { basket, clearBasket } = useBasket(); // Sepet verisini al
   const location = useLocation();
+
+  const logoutUser = () => {
+    clearBasket().then(() => {
+      logout();
+    });
+  }
 
   const navList = user ? (
     <ul className="nav-list">
@@ -24,7 +30,7 @@ const Header = () => {
       </li>
       }
       <li className="nav-item">
-        <Link className="nav-link" to="/logout" onClick={logout}>Logout</Link>
+        <Link className="nav-link" to="/logout" onClick={logoutUser}>Logout</Link>
       </li>
     </ul>
   ) : (

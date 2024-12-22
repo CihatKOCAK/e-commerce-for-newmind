@@ -41,8 +41,19 @@ const updateQuantity = async (userId, productId, quantity) => {
 };
 
 const getBasket = async (userId) => {
-  return Basket.findOne({ userId }).populate("items.productId");
+  const basket = await Basket.findOne({ userId }).populate("items.productId");
+
+  if (!basket) return null;
+
+  // Null olan ürünleri filtrele --> nullsa item kaldırılmış demektir
+  basket.items = basket.items.filter((item) => item.productId !== null);
+
+  // Sepeti güncelle
+  await basket.save();
+
+  return basket;
 };
+
 
 const clearBasket = async (userId) => {
   await Basket.deleteOne({ userId });

@@ -25,9 +25,7 @@ export const BasketProvider = ({ children }) => {
 
   const saveBasket = (updatedBasket) => {
     setBasket(updatedBasket);
-    if (!user) {
-      storage.setItem("basket", updatedBasket);
-    }
+    storage.setItem("basket", updatedBasket);
   };
 
   const addToBasket = async (product) => {

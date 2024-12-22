@@ -6,6 +6,7 @@ import brokenImg  from '../../../assets/broken-image.png';
 const BasketPage = () => {
   const { basket, removeFromBasket, clearBasket } = useBasket();
 
+  console.log("basket",basket);
   const totalPrice = basket.reduce(
     (acc, item) => acc + item.productId.price * item.quantity,
     0
