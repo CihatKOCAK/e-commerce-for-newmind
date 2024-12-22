@@ -34,6 +34,11 @@ const connectKafka = async () => {
         console.log(`Payment processed: ${JSON.stringify(paymentProcessed.success)}`);
 
         let value = "";
+
+        //delay 2 seconds
+        await new Promise((resolve) => setTimeout(resolve
+        , 2000));
+
         // Ödeme başarılıysa "payment-completed" mesajı gönder
         if (paymentProcessed.success) {
           value = JSON.stringify({

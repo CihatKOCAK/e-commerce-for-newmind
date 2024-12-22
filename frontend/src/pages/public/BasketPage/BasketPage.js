@@ -1,16 +1,23 @@
-import React from 'react';
-import { useBasket } from '../../../context/BasketContext';
-import './BasketPage.css';
-import brokenImg  from '../../../assets/broken-image.png';
+import React, { useState } from "react";
+import PaymentModal from "../../../components/Modals/PaymentModal/PaymentModal";
+import { useBasket } from "../../../context/BasketContext";
+import brokenImg from "../../../assets/broken-image.png";
+import "./BasketPage.css";
+import { useAuth } from "../../../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const BasketPage = () => {
   const { basket, removeFromBasket, clearBasket } = useBasket();
-
-  console.log("basket",basket);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user } = useAuth();
   const totalPrice = basket.reduce(
     (acc, item) => acc + item.productId.price * item.quantity,
     0
   ).toFixed(2);
+
+  const handlePaymentSuccess = () => {
+    clearBasket();
+  };
 
   return (
     <div className="basket-page">
@@ -29,11 +36,15 @@ const BasketPage = () => {
                     className="product-image"
                   />
                   <h3 className="product-name">{item.productId.name}</h3>
-                  <p className="product-price">${item.productId.price.toFixed(2)}</p>
+                  <p className="product-price">
+                    ${item.productId.price.toFixed(2)}
+                  </p>
                 </div>
                 <div className="quantity-info">
                   <p>Quantity: {item.quantity}</p>
-                  <p>Total: ${(item.productId.price * item.quantity).toFixed(2)}</p>
+                  <p>
+                    Total: ${(item.productId.price * item.quantity).toFixed(2)}
+                  </p>
                 </div>
                 <button
                   className="remove-button"
@@ -50,11 +61,35 @@ const BasketPage = () => {
               <button className="clear-button" onClick={clearBasket}>
                 Clear Basket
               </button>
-              <button className="checkout-button">Checkout</button>
+              {user ? (
+                <button
+                  className="checkout-button"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  Checkout
+                </button>
+              ) : (
+                <p className="login-message">
+                  Please{" "}
+                  <Link
+                    to="/login"
+                    style={{ color: "blue", fontWeight: "bold" }}
+                  >
+                    login
+                  </Link>{" "}
+                  to continue.
+                </p>
+              )}
             </div>
           </div>
         </>
       )}
+      <PaymentModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onPaymentSuccess={handlePaymentSuccess}
+        basket={basket}
+      />
     </div>
   );
 };

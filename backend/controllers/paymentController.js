@@ -1,4 +1,4 @@
-const kafka = require("../config/kafka");  // Kafka yapılandırmasını import et
+const { producer } = require("../services/kafka/producer");
 const { logError, logInfo } = require("../utils/loggerUtil");
 
 const paymentController = {
@@ -11,13 +11,14 @@ const paymentController = {
  * {object} card - Kredi kartı bilgileri (name, number, expiry, cvc)
  **/ 
   async createPayment(req, res) {
-    const { userId, amount, productSnapshots, card } = req.body;    
+    const userId = req.user.id; 
+    const {  amount, productSnapshots, card } = req.body;    
     try {
       // Kafka'ya ödeme isteğini gönder
       const paymentEvent = { userId, amount, card, productSnapshots };
       
       // Kafka producer'ını kullanarak ödeme isteğini gönder
-      await kafka.producer.send({
+      await producer.send({
         topic: "payment-request",  // Kafka'ya gönderilecek topic adı
         messages: [
           {
