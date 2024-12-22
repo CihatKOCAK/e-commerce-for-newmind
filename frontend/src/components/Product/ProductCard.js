@@ -3,6 +3,7 @@ import brokenImg from '../../assets/broken-image.png';
 import { FaStar } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useBasket } from '../../context/BasketContext';
+import { API_MAIN_URL } from '../../config/apiConfig';
 
 const ProductCard = ({ product }) => {
   const { name, description, price, stock, category, image, rate, viewCount, rateCount } = product;
@@ -12,7 +13,7 @@ const ProductCard = ({ product }) => {
 
   return (<div className="product-card">
       <div className="product-image">
-        <img src={image || brokenImg} alt={name} />
+      <img src={product.image  ? API_MAIN_URL + image : brokenImg } alt={name} />
       </div>
       <div className="product-details">
         <h3 className="product-name">{name}</h3>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Modal = ({ isOpen, onClose, title, children }) => {
+const Modal = ({ isOpen, onClose, title, children, style }) => {
   if (!isOpen) return null;
 
   const styles = {
@@ -43,7 +43,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   return (
     <>
       <div style={styles.overlay} onClick={onClose}></div>
-      <div style={styles.modal}>
+      <div style={style ? { ...styles.modal, ...style } : styles.modal}>
         <div style={styles.header}>
           <h2>{title}</h2>
           <button style={styles.closeButton} onClick={onClose}>

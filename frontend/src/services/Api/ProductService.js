@@ -37,6 +37,24 @@ export default class APIService_Product {
     }
   }
 
+  static async deleteProduct(productId) {
+    try {
+      const response = await api.delete(ENDPOINTS.PRODUCT.replace(':id', productId));
+      return handleResponse(response);
+    } catch (error) {
+      handleError(error);
+    }
+  }
+
+  static async updateProduct(productId, productData) {
+    try {
+      const response = await api.put(ENDPOINTS.PRODUCT.replace(':id', productId), productData);
+      return handleResponse(response);
+    } catch (error) {
+      handleError(error);
+    }
+  }
+
   static async getCategories() {
     try {
       const response = await api.get(ENDPOINTS.CATEGORIES);

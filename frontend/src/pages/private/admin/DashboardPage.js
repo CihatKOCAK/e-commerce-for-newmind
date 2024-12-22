@@ -1,8 +1,7 @@
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import ProductList from '../../../components/Admin/Product/ProductList';
 import CategoryList from '../../../components/Admin/Category/CategoryList';
 import "./DashboardPage.css";
-import APIService_Product from '../../../services/Api/ProductService';
 
 function DashboardPage() {
   const [activeTab, setActiveTab] = useState("products");

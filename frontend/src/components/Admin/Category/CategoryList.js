@@ -1,8 +1,8 @@
 import React, { useState,useEffect } from "react";
 import CategoryForm from "./CategoryForm";
-import Modal from "../../Modal";
 import { showSuccessToast } from "../../../utils/toastify";
 import APIService_Product from "../../../services/Api/ProductService";
+import CategoryUpdateModal from "../../Modals/CategoryUpdate";
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
@@ -67,49 +67,13 @@ const CategoryList = () => {
         ))}
       </ul>
 
-      {/* Modal */}
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Edit Category"
-      >
-        {selectedCategory && (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSave(selectedCategory);
-            }}
-          >
-            <div>
-              <label>Name</label>
-              <input
-                type="text"
-                value={selectedCategory.name}
-                onChange={(e) =>
-                  setSelectedCategory({
-                    ...selectedCategory,
-                    name: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <div>
-              <label>Description</label>
-              <input
-                type="text"
-                value={selectedCategory.description}
-                onChange={(e) =>
-                  setSelectedCategory({
-                    ...selectedCategory,
-                    description: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <button type="submit">Save</button>
-          </form>
-        )}
-      </Modal>
+    <CategoryUpdateModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        handleSave={handleSave}
+    />
     </div>
   );
 };

@@ -31,7 +31,17 @@ const FormComponent = ({ title,fields, onSubmit, buttonText, error }) => {
     <div style={styles.container}>
       <h2>{title}</h2>
       {fields.map((field, index) => (
+        <div key={index} style={{
+          display: "flex",
+          flexDirection: "column",
+          margin: "10px 0",
+        }}>
+        <label style={{
+          textAlign: "left",
+          marginBottom: "5px",
+        }}>{field.placeholder+": "}</label>
         <FormInput key={index} {...field} />
+        </div>
       ))}
       {error && <p style={styles.error}>{error}</p>}
       <button style={styles.button} onClick={onSubmit}>
