@@ -18,6 +18,15 @@ export default class APIService_Basket {
     }
   }
 
+  static async createBasket(items) {
+    try {
+      const response = await api.post(ENDPOINTS.BASKET_CREATE, { items });
+      return handleResponse(response);
+    } catch (error) {
+      handleError(error);
+    }
+  }
+
   static async updateQuantity(productId, quantity) {
     try {
       const response = await api.put(ENDPOINTS.BASKET_UPDATE.replace(":productId", productId), { quantity });

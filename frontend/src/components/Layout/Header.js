@@ -11,9 +11,9 @@ const Header = () => {
   const location = useLocation();
 
   const logoutUser = () => {
-    clearBasket().then(() => {
-      logout();
-    });
+    logout();
+    clearBasket();
+    
   }
 
   const navList = user ? (

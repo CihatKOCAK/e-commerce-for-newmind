@@ -19,6 +19,15 @@ const addItemToBasket = async (userId, productId, quantity) => {
   return Basket.findOne({ userId }).populate("items.productId");
 };
 
+const createBasket = async (userId, items) => {
+  // Sepet zaten varsa sil
+  await Basket.deleteOne({ userId });
+  
+  const basket = new Basket({ userId, items });
+  await basket.save();
+  return Basket.findOne({ userId }).populate("items.productId");
+}
+
 const updateQuantity = async (userId, productId, quantity) => {
   const basket = await Basket.findOne({ userId });
   if (!basket) {
@@ -73,6 +82,7 @@ const removeItemFromBasket = async (userId, productId) => {
 module.exports = {
   addItemToBasket,
   getBasket,
+  createBasket,
   clearBasket,
   updateQuantity,
   removeItemFromBasket

@@ -19,6 +19,7 @@ export const ENDPOINTS = {
   // Basket Endpoints
   BASKET_ADD: "/basket/add",
   BASKET_GET: "/basket",
+  BASKET_CREATE: "/basket/create",
   BASKET_CLEAR: "/basket/clear",
   BASKET_UPDATE: "/basket/:productId",
   BASKET_REMOVE: "/basket/:productId",
