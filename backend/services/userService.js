@@ -13,6 +13,11 @@ class UserService {
   async updateUser(userId, userData) {
     return await User.findByIdAndUpdate(userId, userData, { new: true });
   }
+
+  async findUserById(userId) {
+    return await User.findById(userId);
+  }
+
 }
 
 module.exports = new UserService();

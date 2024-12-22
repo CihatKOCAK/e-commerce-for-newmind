@@ -72,7 +72,14 @@ services:
       - zookeeper
     networks:
       - kafka-net
-
+  
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3003:3003"
+    networks:
+      - kafka-net
 networks:
   kafka-net:
     driver: bridge

@@ -18,9 +18,9 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-  origin: '*', // Tüm domainlere izin ver
-  methods: '*', // Tüm HTTP metotlarına izin ver
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  origin: ['http://localhost:3000', 'http://localhost:3003'], // İzin verilen origin'ler
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // İzin verilen HTTP metodlar
+  allowedHeaders: ['Content-Type', 'Authorization'], // İzin verilen header'lar
 };
 
 
