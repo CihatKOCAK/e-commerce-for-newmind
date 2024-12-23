@@ -58,7 +58,7 @@ const EditProductModal = ({ isOpen, onClose, product, onSave, categories,setSele
         <FormComponent
         fields={[
             { type: "text", name: "name", placeholder: "Name", value: formData.name, onChange: handleChange, required: true },
-            { type: "file", name: "image", onChange: handleFileChange, value: formData.image },
+            { type: "file", name: "image", onChange: handleFileChange, value: formData.image, placeholder: "Image" },
             { type: "text", name: "description", placeholder: "Description", value: formData.description, onChange: handleChange, required: true },
             { type: "text", name: "price", placeholder: "Price", value: formData.price, onChange: handleChange, required: true },
             { type: "text", name: "stock", placeholder: "Stock", value: formData.stock, onChange: handleChange, required: true },

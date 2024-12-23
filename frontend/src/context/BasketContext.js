@@ -160,7 +160,6 @@ export const BasketProvider = ({ children }) => {
       showSuccessToast("Basket cleared!");
     } catch (err) {
       console.error("Error clearing basket:", err);
-      showErrorToast("Failed to clear basket.");
     }
   };
 

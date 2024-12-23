@@ -67,7 +67,7 @@ const ProductForm = ({ setProducts, categories }) => {
       title="Add Product"
       fields={[
         { type: "text", name: "name", placeholder: "Name", value: formData.name, onChange: handleChange, required: true },
-        { type: "file", name: "image", onChange: handleFileChange },
+        { type: "file", name: "image", onChange: handleFileChange, placeholder: "Image"},
         { type: "text", name: "description", placeholder: "Description", value: formData.description, onChange: handleChange, required: true },
         { type: "number", name: "price", placeholder: "Price", value: formData.price, onChange: handleChange, required: true },
         { type: "number", name: "stock", placeholder: "Stock", value: formData.stock, onChange: handleChange, required: true },

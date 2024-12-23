@@ -6,6 +6,7 @@ import { FaStar } from 'react-icons/fa';
 import ProductCard from '../../../components/Product/ProductCard'; // ProductCard bileşeni
 import PRODUCT_SERVICE from '../../../services/Api/ProductService';
 import { useBasket } from '../../../context/BasketContext';
+import { API_MAIN_URL } from '../../../config/apiConfig';
 
 const ProductDetailPage = () => {
   const { id: productId } = useParams(); // URL'deki :id parametresini alır
@@ -58,7 +59,7 @@ const ProductDetailPage = () => {
     <div className="product-details-page">
       <div className="product-details-container">
         <div className="product-image">
-          <img src={image || brokenImg} alt={name} />
+          <img src={image ? API_MAIN_URL + image : brokenImg} alt={name} />
         </div>
         <div className="product-info">
           <h1>{name}</h1>

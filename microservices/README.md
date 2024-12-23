@@ -1,43 +1,43 @@
 # Payment Process Flow
 
-[For English](README.en.md)
+[For Turkish](README.md)
 
-Bu doküman, ödeme işlemi sırasında gerçekleşen adımları ve sistemin nasıl çalıştığını açıklamaktadır.
+This document explains the steps that occur during the payment process and how the system works.
 
-## Akış Diyagramı Adımları
+## Flow Diagram Steps
 
 ### Frontend:
-1. Kullanıcı ödeme isteğini başlatır.
-2. Frontend, backend'e ödeme isteği gönderir ve socket üzerinden ödeme durumunu dinlemeye başlar.
+1. The user initiates the payment request.
+2. The frontend sends the payment request to the backend and starts listening for the payment status via socket.
 
 ### Backend:
-1. Ödeme isteğini alır.
-2. Kafka'ya `"payment-request"` başlıklı bir mesaj gönderir.
+1. The backend receives the payment request.
+2. The backend sends a message with the topic `"payment-request"` to Kafka.
 
 ### Payment Service:
-1. Kafka'dan `"payment-request"` mesajını yakalar.
-2. Ödemeyi işler.
-3. İşlem tamamlandığında, backend'e Kafka üzerinden `"payment-completed"` mesajı gönderir.
+1. The payment service listens for the `"payment-request"` message from Kafka.
+2. It processes the payment.
+3. Once the payment is complete, it sends a `"payment-completed"` message back to the backend via Kafka.
 
 ### Backend:
-1. Kafka'dan `"payment-completed"` mesajını yakalar.
-2. Kullanıcıya başarı durumunu bildirir ve socket üzerinden frontend'e ödeme tamam mesajı gönderir.
-3. Kafka'ya `"invoice-start"` başlıklı bir mesaj gönderir.
+1. The backend listens for the `"payment-completed"` message from Kafka.
+2. The backend informs the user of the success status and sends a payment completion message to the frontend via socket.
+3. The backend sends a message with the topic `"invoice-start"` to Kafka.
 
 ### Invoice Service:
-1. Kafka'dan `"invoice-start"` mesajını yakalar.
-2. Fatura oluşturma işlemini gerçekleştirir.
-3. Başarılı bir şekilde tamamlandığında, Kafka'ya `"invoice-completed"` mesajı gönderir.
+1. The invoice service listens for the `"invoice-start"` message from Kafka.
+2. It processes the invoice creation.
+3. Once the invoice is successfully created, it sends an `"invoice-completed"` message to Kafka.
 
 ### Backend:
-1. Kafka'dan `"invoice-completed"` mesajını yakalar. _(Not OK durumu için hata işleme ya da bildirim yapılabilir.)_
+1. The backend listens for the `"invoice-completed"` message from Kafka. _(Error handling or notifications can be implemented for a "Not OK" status.)_
 
 ---
 
-## Sistem Akışı
+## System Flow
 
-- **Frontend** üzerinden başlayan ödeme isteği, **Backend** aracılığıyla **Payment Service** ve **Invoice Service** mikro servislerine iletilir.
-- Kafka, bu mikro servisler arasında mesajlaşmayı sağlar.
-- Ödeme ve fatura işlemleri tamamlandığında, kullanıcı **Socket** üzerinden bilgilendirilir.
+- The payment request initiated by the **Frontend** is forwarded to the **Payment Service** and **Invoice Service** microservices via the **Backend**.
+- Kafka facilitates messaging between these microservices.
+- Once the payment and invoice processes are completed, the user is notified via **Socket**.
 
-[Main README'ye dön](../README.md)
+[Back to Main README](../README.md)

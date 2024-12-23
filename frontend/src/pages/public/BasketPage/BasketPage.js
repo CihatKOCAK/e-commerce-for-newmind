@@ -5,6 +5,7 @@ import brokenImg from "../../../assets/broken-image.png";
 import "./BasketPage.css";
 import { useAuth } from "../../../context/AuthContext";
 import { Link } from "react-router-dom";
+import { API_MAIN_URL } from "../../../config/apiConfig";
 
 const BasketPage = () => {
   const { basket, removeFromBasket, clearBasket } = useBasket();
@@ -31,7 +32,7 @@ const BasketPage = () => {
               <li key={item.productId._id} className="basket-item">
                 <div className="product-info">
                   <img
-                    src={item.productId.image || brokenImg}
+                    src={item.productId.image ? API_MAIN_URL +  item.productId.image : brokenImg}
                     alt={item.productId.name}
                     className="product-image"
                   />
@@ -84,12 +85,12 @@ const BasketPage = () => {
           </div>
         </>
       )}
-      <PaymentModal
+      {isModalOpen &&<PaymentModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onPaymentSuccess={handlePaymentSuccess}
         basket={basket}
-      />
+      />}
     </div>
   );
 };

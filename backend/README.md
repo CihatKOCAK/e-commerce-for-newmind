@@ -7,12 +7,31 @@ Proje içerisinde yer alan **backend** servisi, kullanıcıların ve ürünlerin
 ## İçindekiler
 
 - [API Dokümantasyonu](#API-Dokümantasyonu)
+- [TechnoStack](#TechnoStack)
 - [Dosya Yapısı](#Dosya-Yapısı)
 - [Env Dosyası](#Env-Dosyası)
 
 ## API Dokümantasyonu
 
 Postman Collection (json) dosyasını [buradan](../ReadMeAssets/ecommerce.postman_collection.json) indirebilirsiniz. Gerekli dummy verileri requestlerde mevcuttur. 
+
+## TechnoStack
+- Node.js
+    - Express.js
+    - mongoose
+    - redis
+    - winston
+    - multer
+    - bcrypt
+    - jsonwebtoken
+    - kafkajs
+    - socket.io
+    - cors
+- Express.js
+- MongoDB
+- Redis
+- Kafka
+- Docker
 
 ## Dosya Yapısı
 ```sh
@@ -71,7 +90,7 @@ backend/
 │   ├── categoryService.js
 │   ├── productService.js
 │   ├── fileUploadService.js
-│   ├── initService.js // ilk kurulum için gerekli verileri ekler 'admin
+│   ├── initService.js # ilk kurulum için gerekli verileri ekler 'admin
 │   └── userService.js
 ├── utils/
 │   ├── logger.js
